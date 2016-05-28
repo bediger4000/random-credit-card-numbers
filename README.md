@@ -39,11 +39,26 @@ run the progra like this:
 That invocation uses 412138 as the BIN, which is a Chase Bank Visa card number. The program
 returns a "card number" that has 9 random digits, and a valid Luhn checkdigit, the trailing "5".
 
+For an Amex "card number":
+
+    $ ./randomccnum 37 15
+    377753764113618
+
 To check the Luhn digit, you could invoke it with the non-checkdigit prefix of an existing 
 card number:
 
     $ ./randomccnum 412138420071190 16
     4121384200711905
+
+It may be worth you time to test your card processing system with a bizarrely-formatted
+"card number" like `4127************`. "7" is a valid Luhn checkdigit for the 3-digit
+"card number" of "412". One of the Luhn checks in the system I worked on would pass
+`4127************` as a credit card number because it was 16 characters in length, started
+with a "4" (for a Visa card) and the only digit characters had a valid checkdigit. Pre PCI-DSS,
+systems using that merchant's card processing would sometimes "obscure" all but the first 4
+digits of a card number, contrary to today's custom of obscuring all but the last 4 digits.
+A bug in a client system passed the obscured string of characters, rather than the unobscured
+string, and caused a huge problem for me to iron out later.
 
 ## A Curiosity
 
@@ -66,3 +81,7 @@ Apparently, the BIN [422675](https://binlists.com/422675) is associated with the
 Pjsc Bta Bank in Ukraine.  I don't know if that's a credit card number that's associated
 with a real account or not, but all 14 prefixes of more than 1 digit have a valid
 Luhn checksum.
+
+A pseudo-credit-card-number of all '0' (zero) characters passes the Luhn check for all
+prefixes, even the final, zero-length prefix, but it does not fit the format for any
+known terrestrial credit card company.
