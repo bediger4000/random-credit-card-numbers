@@ -23,14 +23,15 @@ credit card number. It can handle 16-digit MasterCard, Discover or Visa, and
 digit, the code doesn't have to know that it's working with an Amex-length card number
 or an all-the-others 16-digit-length card number. The digit immediately preceeding the checkdigit
 is an odd numbered digit in all formats, even the very rare 13-digit Visa card numbers. 
-The checksum weight of card number digits is eash to calculate the same way for every
-card type if you realize that the even-odd progression is the same working backwards through
-the card number.
+The checksum weight of card number digits is easy to calculate the same way for any
+card number length if you realize that the even-odd progression is the same working backwards through
+the card number. If you start from the beginning of the card number the algorithm has to check the
+length of the card number in order to know whether the first digit is in an odd position or an even position.
 
 ## Usage
 
 If you want to generate random credit card numbers with real Bank Identification Numbers, you can
-run the progra like this:
+invoke the program like this:
 
     $ ./randomccnum 412138 16
     4121384200711905
@@ -39,12 +40,12 @@ run the progra like this:
 That invocation uses 412138 as the BIN, which is a Chase Bank Visa card number. The program
 returns a "card number" that has 9 random digits, and a valid Luhn checkdigit, the trailing "5".
 
-For an Amex "card number":
+To generate a unique Amex "card number":
 
     $ ./randomccnum 37 15
     377753764113618
 
-To check the Luhn digit, you could invoke it with the non-checkdigit prefix of an existing 
+To check the Luhn digit, you can invoke it with the non-checkdigit prefix of an existing 
 card number:
 
     $ ./randomccnum 412138420071190 16
