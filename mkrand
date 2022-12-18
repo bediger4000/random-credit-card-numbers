@@ -1,0 +1,15 @@
+#!/bin/bash
+set -eou pipefail
+
+# N - how many digits to generate
+N=2
+# D - digits in pseudo-credit-card-number
+# D=4 makes it a "visa" like number
+D=4
+
+while (( N < 17 ))
+do
+	D=$(./randomccnum $D $N)
+	echo $D $N
+	(( N = N + 1 ))
+done
