@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # Use list comprehensions and generator expressions to
 # make generating a random credit card number as
 # incomprehensible as possible.
@@ -22,18 +22,18 @@ def calculate_luhn_checkdigit(digits):
 	''' Calculate luhn checksum digit for array of input digits.
 		The array of input digits should not have a checkdigit suffix.
 		Weight of a digit n: (((2-(p&1))*n)%10) + ((2-(p&1))*n)/10
-		"/" operator: truncating integer division.
+		"//" operator: truncating integer division.
 		p = 0 for odd position digits, p = 1 for even position digits
 		Checkdigit + sum of the weights of the digits in the whole number
 		should equal a multiple of 10
 	'''
-	return (10 - (sum( ((((2-(p&1))*d)%10)+((2-(p&1))*d)/10) for p, d in enumerate(digits[::-1])) % 10)) % 10
+	return (10 - (sum( ((((2-(p&1))*d)%10)+((2-(p&1))*d)//10) for p, d in enumerate(digits[::-1])) % 10)) % 10
 
 def calculate_luhn_checksum(digits):
 	''' Calculate the luhn checksum of a whole number.
 		Returns 0 for a good checksum, some other value otherwise
 	'''
-	return (sum( ((((2-(p&1))*int(d))%10)+((2-(p&1))*int(d))/10) for p, d in enumerate((digits[:-1])[::-1])) + int(digits[-1:])) % 10
+	return (sum( ((((2-(p&1))*int(d))%10)+((2-(p&1))*int(d))//10) for p, d in enumerate((digits[:-1])[::-1])) + int(digits[-1:])) % 10
 
 if __name__ == '__main__':
 	''' At least one, possibly two, command line args: prefix of card number,
@@ -42,6 +42,6 @@ if __name__ == '__main__':
 	try: l = int(sys.argv[2])
 	except: pass
 	cardno = random_cc_number(prefix=sys.argv[1], length=l)
-	print cardno
+	print(cardno)
 	if 0 != calculate_luhn_checksum(cardno):
-		print cardno, "did not pass checksum"
+		print(cardno, "did not pass checksum")
